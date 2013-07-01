@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping.dtd">
+
+<hibernate-mapping>
+
+	<class name="model.Game" table="game">
+
+		<id name="id" column="id" type="long">
+
+			<generator class="assigned" />
+
+		</id>
+
+		<property name="name" type="string" />
+
+	</class>
+
+</hibernate-mapping>
+
+
+
