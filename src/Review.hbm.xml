@@ -3,15 +3,13 @@
 
 <hibernate-mapping>
 
-	<class name="model.Game" table="game">
+	<class name="model.Review" table="game">
 
 		<id name="id" column="id" type="long">
 
 			<generator class="assigned" />
 
 		</id>
-
-		<property name="name" type="string" />
 		
 		<property name="description" type="string" />
 		
@@ -21,7 +19,10 @@
 		
 		<one-to-one name="game" class="model.Game"/>
 		
-		<one-to-one name="platform" class="model.Platform"/>
+		<bag name="platforms" table="platform" lazy="false" cascade="all">  
+            <key column="id_platform"></key>  
+            <one-to-many class="br.com.cinfec.model.bean.Funcionario" />  
+        </bag>
 
 	</class>
 

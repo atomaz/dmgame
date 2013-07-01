@@ -27,5 +27,7 @@
 		</property>
 
 		<mapping resource="Platform.hbm.xml" />
+		<mapping resource="Game.hbm.xml" />
+		<mapping resource="Review.hbm.xml" /> 
 	</session-factory>
 </hibernate-configuration>
