@@ -19,7 +19,7 @@ public class TestPlatformDAO {
 		PlatformDAO dao = new PlatformDAO();
 		
 		// salva
-		dao.saveOrUpdate(p);
+		dao.saveOrUpdate(p); 
 		
 		// lista
 		ArrayList<Platform> platforms = (ArrayList<Platform>)dao.listPlatforms();
