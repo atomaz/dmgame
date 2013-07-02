@@ -35,6 +35,7 @@ public class OmeleteSite extends BaseTest {
 		try {
 			do {
 				
+				
 				System.out.println("Pega uma pagina ... ");
 				
 				List<WebElement> elinks = html.findElements(By.xpath("//li[@class='games']//span[@class='tit']/a"));
