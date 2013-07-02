@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="model.Review" table="game">
+	<class name="model.Review" table="review">
 
 		<id name="id" column="id" type="long">
 
@@ -11,13 +11,13 @@
 
 		</id>
 		
-		<property name="description" type="string" />
+		<property name="description" column="r_description" type="string" />
 		
-		<property name="url" type="string" />
+		<property name="url" column="r_url" type="string" />
 		
-		<property name="grade" type="double" />
+		<property name="grade" column="r_grade" type="double" />
 		
-		<many-to-one name="game" class="model.Game"/>
+		<many-to-one name="game" class="model.Game" column="id_game"/>
 
 	</class>
 
