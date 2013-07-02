@@ -21,7 +21,7 @@
 		
 		<bag name="platforms" table="platform" lazy="false" cascade="all">  
             <key column="id_platform"></key>  
-            <one-to-many class="br.com.cinfec.model.bean.Funcionario" />  
+            <one-to-many class="model.Platform" />  
         </bag>
 
 	</class>

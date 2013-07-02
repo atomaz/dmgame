@@ -33,7 +33,7 @@ public class OmeleteSite extends BaseTest {
 		ArrayList<String> links = new ArrayList<String>();
 		
 		try {
-			while (html.findElement(By.partialLinkText("pr—xima È")) != null) {
+			do {
 				
 				System.out.println("Pega uma pagina ... ");
 				
@@ -45,7 +45,7 @@ public class OmeleteSite extends BaseTest {
 				
 				html.findElement(By.partialLinkText("pr—xima È")).click();
 				pause(3000);
-			}
+			} while (html.findElement(By.partialLinkText("pr—xima È")) != null);
 		} catch(NoSuchElementException e) {
 			System.out.println("Pegou todas as p‡ginas ... eu espero");
 		}
