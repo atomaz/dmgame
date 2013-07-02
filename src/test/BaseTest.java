@@ -6,6 +6,8 @@ import model.Review;
 
 import org.openqa.selenium.WebDriver;
 
+import dao.ReviewDAO;
+
 /**
  * 
  * Classe base para coleta dos dados
@@ -29,7 +31,11 @@ abstract class BaseTest {
 	}
 	
 	public void saveReview(Review review) {
-		// salvar no banco
+		
+		ReviewDAO dao = new ReviewDAO();
+		
+		dao.saveOrUpdate(review);
+		
 	}
 	
 	
