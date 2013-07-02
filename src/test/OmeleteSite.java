@@ -3,6 +3,9 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Game;
+import model.Review;
+
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,7 +14,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class OmeleteSite extends BaseTest {
 
-	 
+	
 	@Test
 	public void test(){
 		html = new HtmlUnitDriver();
@@ -23,6 +26,23 @@ public class OmeleteSite extends BaseTest {
 		ArrayList<String> links = getReviewLinks();
 		
 		System.out.println(links);
+		
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		
+		for (String link : links) {
+			
+			html.get(link);
+			
+			Review r = new Review();
+			Game g = new Game();
+			
+			g.setName(getFromHtmlNameGame());
+			r.setDescription(getFromHtmlDescription());
+			r.setGrade(getFromHtmlGrade());
+			
+			
+			
+		}
 		
 	}
 	
@@ -56,32 +76,24 @@ public class OmeleteSite extends BaseTest {
 		
 		html.get(links.get(0));
 		
-		String nome = getNameGame();
-		
-		String grade = getGrade();
-		
-		String description = getDescription();
-		
-		System.out.println(nome + "\n" + grade + "\n" + description);
-		
-		
+
 		return links;
 	}
 
 	@Override
-	public String getNameGame() {
-		// TODO Auto-generated method stub
+	public String getFromHtmlNameGame() {
+		
 		return null;
 	}
 
 	@Override
-	public String getGrade() {
+	public double getFromHtmlGrade() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public String getDescription() {
+	public String getFromHtmlDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}
