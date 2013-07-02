@@ -41,7 +41,7 @@ public class OmeleteSite extends BaseTest {
 				List<WebElement> elinks = html.findElements(By.xpath("//li[@class='games']//span[@class='tit']/a"));
 				
 				for (WebElement webElement : elinks) {
-					links.add(webElement.getText());
+					links.add(webElement.getAttribute("href"));
 				}
 				
 				html.findElement(By.partialLinkText("pr—xima È")).click();
