@@ -38,7 +38,7 @@ public class OmeleteSite extends BaseTest {
 				
 				System.out.println("Pega uma pagina ... ");
 				
-				List<WebElement> elinks = html.findElements(By.xpath("//li[@class='games']//span[@class='tit']/a"));
+				List<WebElement> elinks = html.findElements(By.xpath("//li[@class='games']//span[@class='tit']/a[contains(@href,'/games')]"));
 				
 				for (WebElement webElement : elinks) {
 					links.add(webElement.getAttribute("href"));
