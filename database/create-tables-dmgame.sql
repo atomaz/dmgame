@@ -2,7 +2,7 @@
 drop table game;
 create table game (
 	id int not null primary key,
-	name text not null unique
+	name_game text not null unique
 );
 
 create table review (

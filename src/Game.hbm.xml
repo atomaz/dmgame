@@ -11,7 +11,7 @@
 
 		</id>
 
-		<property name="name" type="string" />
+		<property name="name" column="name_game" type="string" />
 
 	</class>
 

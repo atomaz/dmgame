@@ -48,6 +48,8 @@ public class ReviewDAO {
 			if (games.size() > 0) {
 				review.setGame((Game)games.get(0));
 			}
+			session.saveOrUpdate(review.getGame());
+			
 			session.saveOrUpdate(review);
 			tx.commit();
 		} catch (HibernateException e) {

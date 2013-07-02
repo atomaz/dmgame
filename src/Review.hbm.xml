@@ -11,7 +11,7 @@
 
 		</id>
 		
-		<property name="description" column="description" type="string" />
+		<property name="description" type="string" />
 		
 		<property name="url" type="string" />
 		
