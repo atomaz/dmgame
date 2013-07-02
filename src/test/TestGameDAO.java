@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 import model.Game;
-import model.Platform;
 
 import org.junit.Test;
 
 import dao.GameDAO;
-import dao.PlatformDAO;
+import dao.ReviewDAO;
 
 public class TestGameDAO {
 

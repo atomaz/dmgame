@@ -44,6 +44,8 @@ public class OmeleteSite extends BaseTest {
 					links.add(webElement.getAttribute("href"));
 				}
 				
+				
+				
 				html.findElement(By.partialLinkText("pr—xima È")).click();
 				pause(3000);
 			} while (html.findElement(By.partialLinkText("pr—xima È")) != null);
@@ -51,6 +53,16 @@ public class OmeleteSite extends BaseTest {
 			System.out.println("Pegou todas as p‡ginas ... eu espero");
 		}
 		
+		
+		html.get(links.get(0));
+		
+		String nome = getNameGame();
+		
+		String grade = getGrade();
+		
+		String description = getDescription();
+		
+		System.out.println(nome + "\n" + grade + "\n" + description);
 		
 		
 		return links;

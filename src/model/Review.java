@@ -14,7 +14,6 @@ public class Review implements Serializable {
 	private Game game;
 	private double grade;
 	private String description;
-	private ArrayList<Platform> platforms;
 	
 	public long getId() {
 		return id;
@@ -46,13 +45,6 @@ public class Review implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public ArrayList<Platform> getPlatforms() {
-		return platforms;
-	}
-	public void setPlatforms(ArrayList<Platform> platforms) {
-		this.platforms = platforms;
-	}
-
 	
 	
 }

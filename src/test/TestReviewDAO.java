@@ -3,35 +3,43 @@ package test;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import model.Platform;
+import model.Game;
+import model.Review;
 
 import org.junit.Test;
 
-import dao.PlatformDAO;
+import dao.ReviewDAO;
 
 public class TestReviewDAO {
 
 	@Test
 	public void insert() {
 		
-		Platform p = new Platform();
-		p.setName("Play Station 4");
-		PlatformDAO dao = new PlatformDAO();
+		Review review = new Review();
+		review.setDescription("a description here");
+		review.setUrl("http://www.google.com.br");
+		review.setGrade(10.0);
+		Game game = new Game();
+		game.setName("Jogos Mortais");
+		review.setGame(game);
+		ReviewDAO dao = new ReviewDAO();
 		
 		// salva
-		dao.saveOrUpdate(p); 
+		dao.saveOrUpdate(review); 
 		
 		// lista
-		ArrayList<Platform> platforms = (ArrayList<Platform>)dao.listPlatforms();
+		//ArrayList<Review> reviews = (ArrayList<Review>)dao.listAllReviews();
 		
-		Assert.assertEquals("Objeto n‹o foi salvo!", 1, platforms.size());
+		//System.out.println(reviews);
+		
+		//Assert.assertEquals("Objeto n‹o foi salvo!", 1, reviews.size());
 		
 		// deleta
-		dao.delete(platforms.get(0));
+		//dao.delete(reviews.get(0));
 		
-		platforms = (ArrayList<Platform>)dao.listPlatforms();
+		//reviews = (ArrayList<Review>) dao.listAllReviews();
 		
-		Assert.assertEquals("Objeto n‹o foi deletado!", 0, platforms.size());
+		//Assert.assertEquals("Objeto n‹o foi deletado!", 0, reviews.size());
 	}
 
 }

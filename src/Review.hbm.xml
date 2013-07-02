@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping.dtd	">
 
 <hibernate-mapping>
 
@@ -11,18 +11,13 @@
 
 		</id>
 		
-		<property name="description" type="string" />
+		<property name="description" column="description" type="string" />
 		
 		<property name="url" type="string" />
 		
 		<property name="grade" type="double" />
 		
-		<one-to-one name="game" class="model.Game"/>
-		
-		<bag name="platforms" table="platform" lazy="false" cascade="all">  
-            <key column="id_platform"></key>  
-            <one-to-many class="model.Platform" />  
-        </bag>
+		<many-to-one name="game" class="model.Game"/>
 
 	</class>
 

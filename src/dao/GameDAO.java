@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Game;
-import model.Platform;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
