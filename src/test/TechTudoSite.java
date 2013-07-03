@@ -99,7 +99,19 @@ public class TechTudoSite extends BaseTest {
 	@Override
 	public String getFromHtmlNameGame() {
 		
-		return html.findElement(By.xpath("//div[@class='conteudo-item primeiro']/h1")).getText();
+		String name = html.findElement(By.xpath("//div[@class='conteudo-item primeiro']/h1")).getText(); 
+		
+		// substituindo a numeração
+		name = name.replaceAll("2", "ii");
+		name = name.replaceAll("3", "iii");
+		name = name.replaceAll("4", "iv");
+		name = name.replaceAll("5", "v");
+		
+		// retirando dois pontos e traço
+		name = name.replaceAll(":", "");
+		name = name.replaceAll("-", "");
+		
+		return name.toLowerCase();
 	}
 
 	@Override

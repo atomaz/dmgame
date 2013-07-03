@@ -84,7 +84,19 @@ public class UOLSite extends BaseTest {
 	@Override
 	public String getFromHtmlNameGame() {
 		
-		return html.findElement(By.xpath("//div[@id='analise']/h1")).getText().replace("Análise: ", "").replace("'", "");
+		String name = html.findElement(By.xpath("//div[@id='analise']/h1")).getText().replace("Análise: ", "").replace("'", "");
+		
+		// substituindo a numeração
+		name = name.replaceAll("2", "ii");
+		name = name.replaceAll("3", "iii");
+		name = name.replaceAll("4", "iv");
+		name = name.replaceAll("5", "v");
+		
+		// retirando dois pontos e traço
+		name = name.replaceAll(":", "");
+		name = name.replaceAll("-", "");
+		
+		return name.toLowerCase();
 	}
 
 	@Override
