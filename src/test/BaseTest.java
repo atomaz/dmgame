@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Review;
 
@@ -37,6 +38,6 @@ abstract class BaseTest {
 		dao.saveOrUpdate(review);
 		
 	}
-	
+
 	
 }

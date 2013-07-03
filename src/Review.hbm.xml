@@ -7,7 +7,7 @@
 
 		<id name="id" column="id" type="long">
 
-			<generator class="assigned" />
+			<generator class="increment" />
 
 		</id>
 		

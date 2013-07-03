@@ -25,6 +25,9 @@
 		<property name="hibernate.show_sql">
 			true
 		</property>
+		<property name="hibernate.temp.use_jdbc_metadata_defaults">
+			false
+		</property>
 
 		<!-- <mapping resource="Platform.hbm.xml" />  -->
 		<mapping resource="Game.hbm.xml" />

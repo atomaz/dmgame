@@ -8,6 +8,7 @@ import model.Game;
 import model.Review;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -38,6 +39,35 @@ public class ReviewDAO {
 		
 	}
 	
+	public void saveOrUpdate(List<Review> reviews) {
+		Session session = Factory.getSessionFactoryInstance().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			
+			for (Review review : reviews) {
+				// verificar se o objeto game dentro da review existe
+				Query q = session.createQuery("FROM Game g WHERE g.name_game = '" + review.getGame().getName() + "'");
+				if (q != null) {
+					List games = q.list();
+					if (games.size() > 0) {
+						review.setGame((Game)games.get(0));
+					}
+				}
+				session.saveOrUpdate(review.getGame());
+				
+				session.saveOrUpdate(review);
+			}
+			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
 	public void saveOrUpdate(Review review) {
 		Session session = Factory.getSessionFactoryInstance().openSession();
 		Transaction tx = null;
@@ -48,9 +78,10 @@ public class ReviewDAO {
 			if (games.size() > 0) {
 				review.setGame((Game)games.get(0));
 			}
-			session.saveOrUpdate(review.getGame());
+			GameDAO dao = new GameDAO();
+			dao.saveOrUpdate(review.getGame());
 			
-			session.saveOrUpdate(review);
+			session.save(review);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
