@@ -36,21 +36,16 @@ public class OmeleteSite extends BaseTest {
 			Review r = new Review();
 			Game g = new Game();
 			
-			double grade = getFromHtmlGrade(); 
 			// a saÌda est· estranha devido a essa linha, mas n„o est· errado.
 			// isso evita pegar resenhas de livros por exemplo. Perco um ou outro jogo
 			// mas mantenho dados consistentes
 			
 			System.out.println("--------------------------------------------------");
 			System.out.println(link);
-			
-			if (grade != -1)
-			{	
-				g.setName(getFromHtmlNameGame());
-				r.setDescription(getFromHtmlDescription());
-				r.setGrade(grade);
-			}
-			
+				
+			g.setName(getFromHtmlNameGame());
+			r.setDescription(getFromHtmlDescription());
+			r.setGrade(getFromHtmlGrade());
 			
 			System.out.println("--------------------------------------------------");
 			
@@ -104,7 +99,17 @@ public class OmeleteSite extends BaseTest {
 		nameGame = nameGame.replace("CrÌtica | ", "");
 		nameGame = nameGame.replace(":", "");
 			
-			
+	
+		// substituindo a numeração
+		nameGame = nameGame.replaceAll("2", "ii");
+		nameGame = nameGame.replaceAll("3", "iii");
+		nameGame = nameGame.replaceAll("4", "iv");
+		nameGame = nameGame.replaceAll("5", "v");
+		
+		// retirando dois pontos e traço
+		nameGame = nameGame.replaceAll(":", "");
+		nameGame = nameGame.replaceAll("-", "");
+		
 		System.out.println(nameGame);
 			
 		return nameGame;
