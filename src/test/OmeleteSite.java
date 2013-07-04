@@ -32,15 +32,27 @@ public class OmeleteSite extends BaseTest {
 		for (String link : links) {
 			
 			html.get(link);
-			
+					
 			Review r = new Review();
 			Game g = new Game();
 			
-			g.setName(getFromHtmlNameGame());
-			r.setDescription(getFromHtmlDescription());
-			r.setGrade(getFromHtmlGrade());
+			double grade = getFromHtmlGrade(); 
+			// a saída está estranha devido a essa linha, mas não está errado.
+			// isso evita pegar resenhas de livros por exemplo. Perco um ou outro jogo
+			// mas mantenho dados consistentes
+			
+			System.out.println("--------------------------------------------------");
+			System.out.println(link);
+			
+			if (grade != -1)
+			{	
+				g.setName(getFromHtmlNameGame());
+				r.setDescription(getFromHtmlDescription());
+				r.setGrade(grade);
+			}
 			
 			
+			System.out.println("--------------------------------------------------");
 			
 		}
 		
@@ -74,7 +86,7 @@ public class OmeleteSite extends BaseTest {
 		}
 		
 		
-		html.get(links.get(0));
+		//html.get(links.get(0));
 		
 
 		return links;
@@ -83,18 +95,71 @@ public class OmeleteSite extends BaseTest {
 	@Override
 	public String getFromHtmlNameGame() {
 		
-		return null;
+		String nameGame;
+		WebElement htmlNameGame = html.findElement(By.xpath("//div[@class='grid_8 omega hdartigo']/h1"));
+		
+		nameGame = htmlNameGame.getText();
+			
+		nameGame = nameGame.replace(" | Crítica", "");
+		nameGame = nameGame.replace("Crítica | ", "");
+		nameGame = nameGame.replace(":", "");
+			
+			
+		System.out.println(nameGame);
+			
+		return nameGame;
+	
 	}
 
 	@Override
 	public double getFromHtmlGrade() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		double grade = -1;
+		String sGrade;
+		
+
+		try {
+			WebElement htmlGrade = html.findElement(By.xpath("//div[@class='info']/span[contains(@class,'ranking_')]"));
+			
+			sGrade = htmlGrade.getText();
+			sGrade = sGrade.toLowerCase();
+			
+			
+			if (sGrade.equals("ruim"))
+				grade = 1.0;
+			else if (sGrade.equals("regular"))
+				grade = 2.0;
+			else if (sGrade.equals("bom"))
+				grade = 3.0;
+			else if (sGrade.equals("ótimo"))
+				grade = 4.0;
+			else if (sGrade.equals("excelente"))
+				grade = 5.0;
+			
+			System.out.println(sGrade + " = nota: " + grade);
+			
+		} catch (NoSuchElementException e) {
+			System.out.println("Grade não encontrado");
+		}
+		
+		return grade;
 	}
 
 	@Override
 	public String getFromHtmlDescription() {
-		// TODO Auto-generated method stub
+		
+		String content;
+		StringBuffer allContent = new StringBuffer();
+		
+		List<WebElement> htmlContentGame = html.findElements(By.xpath("//div[@id='HOTWordsTxt']//p"));
+		
+		for (WebElement webElement : htmlContentGame) {
+			content = webElement.getText();
+			allContent.append(content);
+		}
+		
+		System.out.println(allContent);
+		
 		return null;
 	}
 	
