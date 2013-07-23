@@ -44,8 +44,13 @@ public class OmeleteSite extends BaseTest {
 			System.out.println(link);
 				
 			g.setName(getFromHtmlNameGame());
+			
 			r.setDescription(getFromHtmlDescription());
 			r.setGrade(getFromHtmlGrade());
+			
+			r.setGame(g);
+			
+			saveReview(r);
 			
 			System.out.println("--------------------------------------------------");
 			
@@ -93,10 +98,11 @@ public class OmeleteSite extends BaseTest {
 		String nameGame;
 		WebElement htmlNameGame = html.findElement(By.xpath("//div[@class='grid_8 omega hdartigo']/h1"));
 		
-		nameGame = htmlNameGame.getText();
+		nameGame = htmlNameGame.getText().toLowerCase();
 			
-		nameGame = nameGame.replace(" | CrÌtica", "");
-		nameGame = nameGame.replace("CrÌtica | ", "");
+		nameGame = nameGame.replace(" crítica do livro", "");
+		nameGame = nameGame.replace(" crítica ", "");
+		nameGame = nameGame.replace("|", "");
 		nameGame = nameGame.replace(":", "");
 			
 	
@@ -107,6 +113,8 @@ public class OmeleteSite extends BaseTest {
 		nameGame = nameGame.replaceAll("5", "v");
 		
 		// retirando dois pontos e traço
+		nameGame = nameGame.replaceAll("'s", "");
+		nameGame = nameGame.replaceAll("'", "");
 		nameGame = nameGame.replaceAll(":", "");
 		nameGame = nameGame.replaceAll("-", "");
 		
@@ -136,7 +144,7 @@ public class OmeleteSite extends BaseTest {
 				grade = 2.0;
 			else if (sGrade.equals("bom"))
 				grade = 3.0;
-			else if (sGrade.equals("Ûtimo"))
+			else if (sGrade.equals("\u00f0timo"))
 				grade = 4.0;
 			else if (sGrade.equals("excelente"))
 				grade = 5.0;
@@ -144,7 +152,7 @@ public class OmeleteSite extends BaseTest {
 			System.out.println(sGrade + " = nota: " + grade);
 			
 		} catch (NoSuchElementException e) {
-			System.out.println("Grade n„o encontrado");
+			System.out.println("Nota não encontrada");
 		}
 		
 		return grade;
@@ -153,19 +161,19 @@ public class OmeleteSite extends BaseTest {
 	@Override
 	public String getFromHtmlDescription() {
 		
-		String content;
-		StringBuffer allContent = new StringBuffer();
+		String content = "";
+		//StringBuffer allContent = new StringBuffer();
 		
 		List<WebElement> htmlContentGame = html.findElements(By.xpath("//div[@id='HOTWordsTxt']//p"));
 		
 		for (WebElement webElement : htmlContentGame) {
-			content = webElement.getText();
-			allContent.append(content);
+			content += (" " + webElement.getText());
+			//allContent.append(content);
 		}
 		
-		System.out.println(allContent);
+		System.out.println(content);
 		
-		return null;
+		return content;
 	}
 	
 	
