@@ -18,6 +18,10 @@
 		<property name="grade" column="r_grade" type="double" />
 		
 		<many-to-one name="game" class="model.Game" column="id_game"/>
+		
+		<many-to-one name="platform" class="model.Platform" column="platform_id"/>
+		
+		<many-to-one name="platform" class="model.GameType" column="gametype_id"/>
 
 	</class>
 

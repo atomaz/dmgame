@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Game;
+import model.GameType;
+import model.Platform;
 import model.Review;
 
 import org.hibernate.HibernateException;
@@ -54,7 +56,25 @@ public class ReviewDAO {
 						review.setGame((Game)games.get(0));
 					}
 				}
+				// com a plataforma
+				q = session.createQuery("FROM Platform p WHERE p.platform_name = '" + review.getPlatform().getName() + "'");
+				if (q != null) {
+					List games = q.list();
+					if (games.size() > 0) {
+						review.setPlatform((Platform)games.get(0));
+					}
+				}
+				// com o tipo
+				q = session.createQuery("FROM Gametype gt WHERE gt.gt_name = '" + review.getGameType().getName() + "'");
+				if (q != null) {
+					List games = q.list();
+					if (games.size() > 0) {
+						review.setGameType((GameType)games.get(0));
+					}
+				}
 				session.saveOrUpdate(review.getGame());
+				session.saveOrUpdate(review.getPlatform());
+				session.saveOrUpdate(review.getGameType());
 				
 				session.saveOrUpdate(review);
 			}

@@ -11,7 +11,7 @@
 
 		</id>
 
-		<property name="name" type="string" column="platform_name"/>
+		<property name="name" type="string" column="gt_name" />
 
 	</class>
 
