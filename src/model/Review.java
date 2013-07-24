@@ -12,9 +12,13 @@ public class Review implements Serializable {
 	
 	private String url;
 	private Game game;
-	private double grade;
+	private Platform platform;
+	private GameType gameType;
+	private int gradeGrafic;
+	private int gradeJogability;
+	private int gradeFun;
+	private int gradeSound;
 	private String description;
-	
 	public long getId() {
 		return id;
 	}
@@ -33,11 +37,41 @@ public class Review implements Serializable {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	public double getGrade() {
-		return grade;
+	public Platform getPlatform() {
+		return platform;
 	}
-	public void setGrade(double grade) {
-		this.grade = grade;
+	public void setPlatform(Platform platform) {
+		this.platform = platform;
+	}
+	public GameType getGameType() {
+		return gameType;
+	}
+	public void setGameType(GameType gameType) {
+		this.gameType = gameType;
+	}
+	public int getGradeGrafic() {
+		return gradeGrafic;
+	}
+	public void setGradeGrafic(int gradeGrafic) {
+		this.gradeGrafic = gradeGrafic;
+	}
+	public int getGradeJogability() {
+		return gradeJogability;
+	}
+	public void setGradeJogability(int gradeJogability) {
+		this.gradeJogability = gradeJogability;
+	}
+	public int getGradeFun() {
+		return gradeFun;
+	}
+	public void setGradeFun(int gradeFun) {
+		this.gradeFun = gradeFun;
+	}
+	public int getGradeSound() {
+		return gradeSound;
+	}
+	public void setGradeSound(int gradeSound) {
+		this.gradeSound = gradeSound;
 	}
 	public String getDescription() {
 		return description;
@@ -45,6 +79,8 @@ public class Review implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
 	
 	
 }
