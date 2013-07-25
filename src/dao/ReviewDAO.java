@@ -15,11 +15,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class ReviewDAO {
-	
+
 	public List<Review> listAllReviews() {
-		
+
 		ArrayList<Review> list = new ArrayList<Review>();
-		
+
 		Session session = Factory.getSessionFactoryInstance().openSession();
 		Transaction tx = null;
 		try {
@@ -36,49 +36,21 @@ public class ReviewDAO {
 		} finally {
 			session.close();
 		}
-		
+
 		return list;
-		
+
 	}
-	
+
 	public void saveOrUpdate(List<Review> reviews) {
 		Session session = Factory.getSessionFactoryInstance().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			
+
 			for (Review review : reviews) {
-				// verificar se o objeto game dentro da review existe
-				Query q = session.createQuery("FROM Game g WHERE g.name_game = '" + review.getGame().getName() + "'");
-				if (q != null) {
-					List games = q.list();
-					if (games.size() > 0) {
-						review.setGame((Game)games.get(0));
-					}
-				}
-				// com a plataforma
-				q = session.createQuery("FROM Platform p WHERE p.platform_name = '" + review.getPlatform().getName() + "'");
-				if (q != null) {
-					List games = q.list();
-					if (games.size() > 0) {
-						review.setPlatform((Platform)games.get(0));
-					}
-				}
-				// com o tipo
-				q = session.createQuery("FROM Gametype gt WHERE gt.gt_name = '" + review.getGameType().getName() + "'");
-				if (q != null) {
-					List games = q.list();
-					if (games.size() > 0) {
-						review.setGameType((GameType)games.get(0));
-					}
-				}
-				session.saveOrUpdate(review.getGame());
-				session.saveOrUpdate(review.getPlatform());
-				session.saveOrUpdate(review.getGameType());
-				
-				session.saveOrUpdate(review);
+				savingReview(review, session);
 			}
-			
+
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
@@ -87,21 +59,15 @@ public class ReviewDAO {
 			session.close();
 		}
 	}
-	
+
 	public void saveOrUpdate(Review review) {
 		Session session = Factory.getSessionFactoryInstance().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			// verificar se o objeto game dentro da review existe
-			List games = session.createQuery("FROM Game g WHERE g.name = '" +review.getGame().getName() + "'").list();
-			if (games.size() > 0) {
-				review.setGame((Game)games.get(0));
-			}
-			GameDAO dao = new GameDAO();
-			dao.saveOrUpdate(review.getGame());
-			
-			session.save(review);
+
+			savingReview(review, session);
+
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
@@ -110,7 +76,7 @@ public class ReviewDAO {
 			session.close();
 		}
 	}
-	
+
 	public void delete(Review review) {
 		Session session = Factory.getSessionFactoryInstance().openSession();
 		Transaction tx = null;
@@ -125,6 +91,56 @@ public class ReviewDAO {
 			session.close();
 		}
 	}
-	
+
+	public void savingReview(Review review, Session session) {
+		// verificar se o objeto game dentro da review existe
+		Review reviewToBeSaved = review;
+		
+		Query q = session.createQuery("FROM Review r WHERE r.game = '" + review.getGame().getId() + "'");
+		List reviews = q.list();
+		if (reviews.size() > 0) {
+			// existe um jogo com o nome dado .. basta atualizá-lo
+			reviewToBeSaved = (Review) reviews.get(0);
+			
+		}
+		
+		q = session.createQuery("FROM Game g WHERE g.name = '" + reviewToBeSaved.getGame().getName() + "'");
+		if (q != null) {
+			List games = q.list();
+			if (games.size() > 0) {
+				reviewToBeSaved.setGame((Game)games.get(0));
+			} else {
+				// é um novo jogo
+			}
+		}
+		session.saveOrUpdate(reviewToBeSaved.getGame());
+		
+		if (reviewToBeSaved.getPlatform() != null) {
+			// com a plataforma
+			q = session.createQuery("FROM Platform p WHERE p.name = '" + reviewToBeSaved.getPlatform().getName() + "'");
+			if (q != null) {
+				List games = q.list();
+				if (games.size() > 0) {
+					reviewToBeSaved.setPlatform((Platform)games.get(0));
+				}
+			}
+			session.saveOrUpdate(reviewToBeSaved.getPlatform());
+		}
+		
+		if (reviewToBeSaved.getGameType() != null) {
+			// com o tipo
+			q = session.createQuery("FROM GameType gt WHERE gt.name = '" + reviewToBeSaved.getGameType().getName() + "'");
+			if (q != null) {
+				List games = q.list();
+				if (games.size() > 0) {
+					reviewToBeSaved.setGameType((GameType)games.get(0));
+				}
+			}
+			session.saveOrUpdate(reviewToBeSaved.getGameType());
+		}
+		
+		session.saveOrUpdate(reviewToBeSaved);
+	}
+
 
 }

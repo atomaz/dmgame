@@ -14,11 +14,13 @@ public class Review implements Serializable {
 	private Game game;
 	private Platform platform;
 	private GameType gameType;
-	private int gradeGrafic;
+	private int gradeGraphic;
 	private int gradeJogability;
 	private int gradeFun;
 	private int gradeSound;
-	private String description;
+	private String country;
+	private boolean multiplayer;
+	
 	public long getId() {
 		return id;
 	}
@@ -49,11 +51,11 @@ public class Review implements Serializable {
 	public void setGameType(GameType gameType) {
 		this.gameType = gameType;
 	}
-	public int getGradeGrafic() {
-		return gradeGrafic;
+	public int getGradeGraphic() {
+		return gradeGraphic;
 	}
-	public void setGradeGrafic(int gradeGrafic) {
-		this.gradeGrafic = gradeGrafic;
+	public void setGradeGraphic(int gradeGraphic) {
+		this.gradeGraphic = gradeGraphic;
 	}
 	public int getGradeJogability() {
 		return gradeJogability;
@@ -73,14 +75,17 @@ public class Review implements Serializable {
 	public void setGradeSound(int gradeSound) {
 		this.gradeSound = gradeSound;
 	}
-	public String getDescription() {
-		return description;
+	public String getCountry() {
+		return country;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCountry(String country) {
+		this.country = country;
 	}
-	
-	
-	
+	public boolean isMultiplayer() {
+		return multiplayer;
+	}
+	public void setMultiplayer(boolean multiplayer) {
+		this.multiplayer = multiplayer;
+	}
 	
 }

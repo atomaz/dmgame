@@ -18,8 +18,6 @@ abstract class BaseTest {
 	protected WebDriver html;
 	
 	public abstract String getFromHtmlNameGame();
-	public abstract double getFromHtmlGrade();
-	public abstract String getFromHtmlDescription();
 	public abstract ArrayList<String> getReviewLinks();
 	
 	public void pause(long time) {

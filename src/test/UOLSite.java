@@ -39,10 +39,12 @@ public class UOLSite extends BaseTest {
 			Game g = new Game();
 			
 			g.setName(getFromHtmlNameGame());
-			r.setDescription(getFromHtmlDescription());
-			r.setGrade(getFromHtmlGrade());
 			r.setGame(g);
 			r.setUrl(link);
+			
+			// TODO: Criar 6 (seis) m√©todos que pegue cada um dos parametros abaixo, semelhante ao getFromHtmlPlatform
+//			r.setPlatform(platform);
+			
 			
 			reviews.add(r);
 			
@@ -74,7 +76,7 @@ public class UOLSite extends BaseTest {
 				pause(3000);
 			} while (html.findElement(By.xpath(btproximo)) != null);
 		} catch(NoSuchElementException e) {
-			System.out.println("Pegou todas as páginas de UOL ... eu espero");
+			System.out.println("Pegou todas as pÔøΩginas de UOL ... eu espero");
 		}
 		
 
@@ -84,48 +86,20 @@ public class UOLSite extends BaseTest {
 	@Override
 	public String getFromHtmlNameGame() {
 		
-		String name = html.findElement(By.xpath("//div[@id='analise']/h1")).getText().replace("Análise: ", "").replace("'", "");
+		String name = html.findElement(By.xpath("//div[@id='analise']/h1")).getText().replace("AnÔøΩlise: ", "").replace("'", "");
 		
-		// substituindo a numeração
+		// substituindo a numeraÔøΩÔøΩo
 		name = name.replaceAll("2", "ii");
 		name = name.replaceAll("3", "iii");
 		name = name.replaceAll("4", "iv");
 		name = name.replaceAll("5", "v");
 		
-		// retirando dois pontos e traço
+		// retirando dois pontos e traÔøΩo
 		name = name.replaceAll(":", "");
 		name = name.replaceAll("-", "");
 		
 		return name.toLowerCase();
 	}
-
-	@Override
-	public double getFromHtmlGrade() {
-		// Ou seja, não possui nota
-		return -1;
-	}
-
-	@Override
-	public String getFromHtmlDescription() {
-		String contents = html.findElement(By.xpath("//div[@class='resumo']")).getText();
-		
-		List<WebElement> list = html.findElements(By.xpath("//div[@class='boxModulo']"));
-		for (WebElement e : list) {
-			contents += e.getText();
-		}
-		
-		System.out.println("---------------------------------------------------------------------------------------");
-		System.out.println(contents);
-		System.out.println("---------------------------------------------------------------------------------------");
-		// só funciona em drivers que executam JS
-		//String contents = (String)((JavascriptExecutor)html).executeScript("return arguments[0].innerHTML;", element);
-		
-		//This replaces the HTML with a single space, then collapses whitespace, and then trims any on the ends.
-		//String description = contents.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim();; 
-		return contents;
-	}
-	
-	
 	
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Game;
+import model.GameType;
 import model.Review;
 
 import org.junit.Test;
@@ -17,13 +18,13 @@ import org.testng.Assert;
 public class TechTudoSite extends BaseTest {
 
 	/**
-	 * Testa a remoção de tags html de uma string
+	 * Testa a remocao de tags html de uma string
 	 * */
 	@Test
 	public void testXpath() {
 //		String htmldescription = html.findElement(By.xpath("")).toString();
 		String html = "<html><head>html title</head><body>some text inside body</body></html>";
-		// remover tags de html description deixando só o texto
+		// remover tags de html description deixando so o texto
 		//This replaces the HTML with a single space, then collapses whitespace, and then trims any on the ends.
 		String description = html.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim();; 
 		
@@ -54,8 +55,20 @@ public class TechTudoSite extends BaseTest {
 			Game g = new Game();
 			
 			g.setName(getFromHtmlNameGame());
-			r.setDescription(getFromHtmlDescription());
-			r.setGrade(getFromHtmlGrade());
+			
+
+			// pegando o tipo de jogo (acao, aventura)
+			GameType type = new GameType();
+			type.setName(getGameType());
+			r.setGameType(type);
+			
+			// pegando as notas do jogo
+			int[] grades = getGrades();
+			r.setGradeGraphic(grades[0]);
+			r.setGradeJogability(grades[1]);
+			r.setGradeFun(grades[2]);
+			r.setGradeSound(grades[3]);
+			
 			r.setGame(g);
 			r.setUrl(link);
 			
@@ -72,7 +85,7 @@ public class TechTudoSite extends BaseTest {
 		
 		ArrayList<String> links = new ArrayList<String>();
 		
-		String btproximo = "//a[@class='botoes' and @title='Próxima']";
+		String btproximo = "//a[@class='botoes' and @title='Pr\u00f3xima']";
 		try {
 			do {
 				
@@ -89,7 +102,7 @@ public class TechTudoSite extends BaseTest {
 				pause(3000);
 			} while (html.findElement(By.xpath(btproximo)) != null);
 		} catch(NoSuchElementException e) {
-			System.out.println("Pegou todas as páginas de TechTudo ... eu espero");
+			System.out.println("Pegou todas as paginas de TechTudo ... eu espero");
 		}
 		
 
@@ -101,42 +114,59 @@ public class TechTudoSite extends BaseTest {
 		
 		String name = html.findElement(By.xpath("//div[@class='conteudo-item primeiro']/h1")).getText(); 
 		
-		// substituindo a numeração
+		// substituindo a numeracao
 		name = name.replaceAll("2", "ii");
 		name = name.replaceAll("3", "iii");
 		name = name.replaceAll("4", "iv");
 		name = name.replaceAll("5", "v");
 		
-		// retirando dois pontos e traço
+		// retirando dois pontos e traco
 		name = name.replaceAll(":", "");
 		name = name.replaceAll("-", "");
+		name = name.replaceAll("&", "and");
 		
 		return name.toLowerCase();
-	}
+	}	
 
-	@Override
-	public double getFromHtmlGrade() {
-				
-		String grade = html.findElement(By.xpath("//div[@class='nota-editor-right']/div")).getAttribute("content");
-		
-		return Double.parseDouble(grade);
-	}
-
-	@Override
-	public String getFromHtmlDescription() {
-		String contents = html.findElement(By.id("materia-letra")).getText();
-		System.out.println("---------------------------------------------------------------------------------------");
-		System.out.println(contents);
-		System.out.println("---------------------------------------------------------------------------------------");
-		// só funciona em drivers que executam JS
-		//String contents = (String)((JavascriptExecutor)html).executeScript("return arguments[0].innerHTML;", element);
-		
-		//This replaces the HTML with a single space, then collapses whitespace, and then trims any on the ends.
-		//String description = contents.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim();; 
-		return contents;
+	
+	public String getGameType() {
+		return html.findElement(By.className("nome-categoria")).getText().replaceFirst("Jogos de ", "");
 	}
 	
 	
-	
+	/**
+	 * Retorna uma lista com as notas na seguinte ordem: 
+	 * GRAFICOS, JOGABILIDADE, DIVERSAO, SOM
+	 * 
+	 * <li class"l7">
+	 * 		<label>GRAFICOS</label>
+	 * 		<span>7</span>
+	 * </li>
+	 * 
+	 * */
+	public int[] getGrades() {
+		int[] grades = new int[4];
+		
+		for (int i = 0; i < grades.length; i++) {
+			grades[i] = -1;
+		}
+		
+		List<WebElement> wg = html.findElements(By.className("l7"));
+		
+		for (int i = 0; i < wg.size(); i++) {
+			char gradeOption = wg.get(i).findElement(By.tagName("label")).getText().toLowerCase().charAt(0);
+			int nota = Integer.parseInt(wg.get(i).findElement(By.tagName("span")).getText());
+			switch (gradeOption) {
+				case ('g'): grades[0] = nota; break;
+				case ('j'): grades[1] = nota; break;
+				case ('d'): grades[2] = nota; break;
+				case ('s'): grades[3] = nota; break;
+				default: nota = -1;
+			}
+			
+		}
+		
+		return grades;
+	}
 
 }

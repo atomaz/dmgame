@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="model.Platform" table="platform">
+	<class name="model.GameType" table="gametype">
 
 		<id name="id" column="id" type="long">
 

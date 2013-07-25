@@ -10,18 +10,22 @@
 			<generator class="increment" />
 
 		</id>
-		
-		<property name="description" column="r_description" type="string" />
-		
+				
 		<property name="url" column="r_url" type="string" />
 		
-		<property name="grade" column="r_grade" type="double" />
+		<property name="gradeGraphic" column="grade_graphic" type="int" />
+		
+		<property name="gradeJogability" column="grade_jogability" type="int" />
+		
+		<property name="gradeFun" column="grade_fun" type="int" />
+		
+		<property name="gradeSound" column="grade_sound" type="int" />
 		
 		<many-to-one name="game" class="model.Game" column="id_game"/>
 		
 		<many-to-one name="platform" class="model.Platform" column="platform_id"/>
 		
-		<many-to-one name="platform" class="model.GameType" column="gametype_id"/>
+		<many-to-one name="gameType" class="model.GameType" column="gametype_id"/>
 
 	</class>
 

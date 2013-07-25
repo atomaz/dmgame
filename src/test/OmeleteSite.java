@@ -36,7 +36,7 @@ public class OmeleteSite extends BaseTest {
 			Review r = new Review();
 			Game g = new Game();
 			
-			// a saÌda est· estranha devido a essa linha, mas n„o est· errado.
+			// a saÔøΩda estÔøΩ estranha devido a essa linha, mas nÔøΩo estÔøΩ errado.
 			// isso evita pegar resenhas de livros por exemplo. Perco um ou outro jogo
 			// mas mantenho dados consistentes
 			
@@ -45,8 +45,9 @@ public class OmeleteSite extends BaseTest {
 				
 			g.setName(getFromHtmlNameGame());
 			
-			r.setDescription(getFromHtmlDescription());
-			r.setGrade(getFromHtmlGrade());
+			
+
+			
 			
 			r.setGame(g);
 			
@@ -78,11 +79,11 @@ public class OmeleteSite extends BaseTest {
 				
 				
 				
-				html.findElement(By.partialLinkText("próxima »")).click();
+				html.findElement(By.partialLinkText("prÔøΩxima ÔøΩ")).click();
 				pause(3000);
-			} while (html.findElement(By.partialLinkText("próxima »")) != null);
+			} while (html.findElement(By.partialLinkText("prÔøΩxima ÔøΩ")) != null);
 		} catch(NoSuchElementException e) {
-			System.out.println("Pegou todas as páginas ... eu espero");
+			System.out.println("Pegou todas as pÔøΩginas ... eu espero");
 		}
 		
 		
@@ -100,19 +101,19 @@ public class OmeleteSite extends BaseTest {
 		
 		nameGame = htmlNameGame.getText().toLowerCase();
 			
-		nameGame = nameGame.replace(" crítica do livro", "");
-		nameGame = nameGame.replace(" crítica ", "");
+		nameGame = nameGame.replace(" crÔøΩtica do livro", "");
+		nameGame = nameGame.replace(" crÔøΩtica ", "");
 		nameGame = nameGame.replace("|", "");
 		nameGame = nameGame.replace(":", "");
 			
 	
-		// substituindo a numeração
+		// substituindo a numeraÔøΩÔøΩo
 		nameGame = nameGame.replaceAll("2", "ii");
 		nameGame = nameGame.replaceAll("3", "iii");
 		nameGame = nameGame.replaceAll("4", "iv");
 		nameGame = nameGame.replaceAll("5", "v");
 		
-		// retirando dois pontos e traço
+		// retirando dois pontos e traÔøΩo
 		nameGame = nameGame.replaceAll("'s", "");
 		nameGame = nameGame.replaceAll("'", "");
 		nameGame = nameGame.replaceAll(":", "");
@@ -124,57 +125,6 @@ public class OmeleteSite extends BaseTest {
 	
 	}
 
-	@Override
-	public double getFromHtmlGrade() {
-		
-		double grade = -1;
-		String sGrade;
-		
-
-		try {
-			WebElement htmlGrade = html.findElement(By.xpath("//div[@class='info']/span[contains(@class,'ranking_')]"));
-			
-			sGrade = htmlGrade.getText();
-			sGrade = sGrade.toLowerCase();
-			
-			
-			if (sGrade.equals("ruim"))
-				grade = 1.0;
-			else if (sGrade.equals("regular"))
-				grade = 2.0;
-			else if (sGrade.equals("bom"))
-				grade = 3.0;
-			else if (sGrade.equals("\u00f0timo"))
-				grade = 4.0;
-			else if (sGrade.equals("excelente"))
-				grade = 5.0;
-			
-			System.out.println(sGrade + " = nota: " + grade);
-			
-		} catch (NoSuchElementException e) {
-			System.out.println("Nota não encontrada");
-		}
-		
-		return grade;
-	}
-
-	@Override
-	public String getFromHtmlDescription() {
-		
-		String content = "";
-		//StringBuffer allContent = new StringBuffer();
-		
-		List<WebElement> htmlContentGame = html.findElements(By.xpath("//div[@id='HOTWordsTxt']//p"));
-		
-		for (WebElement webElement : htmlContentGame) {
-			content += (" " + webElement.getText());
-			//allContent.append(content);
-		}
-		
-		System.out.println(content);
-		
-		return content;
-	}
 	
 	
 	
