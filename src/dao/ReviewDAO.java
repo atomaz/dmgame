@@ -96,24 +96,22 @@ public class ReviewDAO {
 		// verificar se o objeto game dentro da review existe
 		Review reviewToBeSaved = review;
 		
-		Query q = session.createQuery("FROM Review r WHERE r.game = '" + review.getGame().getId() + "'");
-		List reviews = q.list();
-		if (reviews.size() > 0) {
-			// existe um jogo com o nome dado .. basta atualizá-lo
-			reviewToBeSaved = (Review) reviews.get(0);
-			
-		}
-		
-		q = session.createQuery("FROM Game g WHERE g.name = '" + reviewToBeSaved.getGame().getName() + "'");
+		Query q = session.createQuery("FROM Game g WHERE g.name = '" + reviewToBeSaved.getGame().getName() + "'");
 		if (q != null) {
 			List games = q.list();
 			if (games.size() > 0) {
 				reviewToBeSaved.setGame((Game)games.get(0));
-			} else {
-				// é um novo jogo
 			}
 		}
 		session.saveOrUpdate(reviewToBeSaved.getGame());
+		if (reviewToBeSaved.getGame().getId() > -1) {
+			q = session.createQuery("FROM Review r WHERE r.game.id = '" + review.getGame().getId() + "'");
+			List reviews = q.list();
+			if (reviews.size() > 0) {
+				// existe um jogo com o nome dado .. basta atualizá-lo
+				reviewToBeSaved = (Review) reviews.get(0);
+			}
+		}
 		
 		if (reviewToBeSaved.getPlatform() != null) {
 			// com a plataforma

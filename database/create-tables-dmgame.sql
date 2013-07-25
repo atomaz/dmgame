@@ -34,7 +34,3 @@ alter table review add column grade_fun int;
 alter table review add column grade_sound int;
 alter table review add column gametype_id int references gametype(id);
 
-
-
-
-
