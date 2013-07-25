@@ -1,7 +1,7 @@
-drop table review;
-drop table game;
-drop table platform;
-drop table gametype;
+--drop table review;
+--drop table game;
+--drop table platform;
+--drop table gametype;
 
 create table game (
 	id int not null primary key,
@@ -11,9 +11,7 @@ create table game (
 create table review (
 	"id" int not null primary key,
 	"id_game" int not null,
-	"r_description" text,
 	"r_url" text unique,
-	"r_grade"  real,
 	foreign key (id_game) references game(id)
 );
 
