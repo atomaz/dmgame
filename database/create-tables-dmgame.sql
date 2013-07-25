@@ -15,12 +15,6 @@ create table review (
 	foreign key (id_game) references game(id)
 );
 
-/*Inserindo os novos atributos */
-
-alter table review drop column r_grade;
-alter table review drop column r_description;
-
-
 create table platform (
 	id int not null primary key,
 	platform_name varchar(100) not null
