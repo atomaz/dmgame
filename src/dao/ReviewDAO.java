@@ -6,7 +6,6 @@ import java.util.List;
 
 import model.Game;
 import model.GameType;
-import model.Platform;
 import model.Review;
 
 import org.hibernate.HibernateException;
@@ -111,18 +110,6 @@ public class ReviewDAO {
 				// existe um jogo com o nome dado .. basta atualizá-lo
 				reviewToBeSaved = (Review) reviews.get(0);
 			}
-		}
-		
-		if (reviewToBeSaved.getPlatform() != null) {
-			// com a plataforma
-			q = session.createQuery("FROM Platform p WHERE p.name = '" + reviewToBeSaved.getPlatform().getName() + "'");
-			if (q != null) {
-				List games = q.list();
-				if (games.size() > 0) {
-					reviewToBeSaved.setPlatform((Platform)games.get(0));
-				}
-			}
-			session.saveOrUpdate(reviewToBeSaved.getPlatform());
 		}
 		
 		if (reviewToBeSaved.getGameType() != null) {

@@ -123,6 +123,7 @@ public class TechTudoSite extends BaseTest {
 		// retirando dois pontos e traco
 		name = name.replaceAll(":", "");
 		name = name.replaceAll("-", "");
+		name = name.replaceAll("'", "");
 		name = name.replaceAll("&", "and");
 
 		return name.toLowerCase();
@@ -157,15 +158,19 @@ public class TechTudoSite extends BaseTest {
 
 		for (int i = 0; i < wg.size(); i++) {
 			char gradeOption = wg.get(i).findElement(By.tagName("label")).getText().toLowerCase().charAt(0);
-			int nota = Integer.parseInt(wg.get(i).findElement(By.tagName("span")).getText());
-			switch (gradeOption) {
-			case ('g'): grades[0] = nota; break;
-			case ('j'): grades[1] = nota; break;
-			case ('d'): grades[2] = nota; break;
-			case ('s'): grades[3] = nota; break;
-			default: nota = -1;
+			
+			try {
+				int nota = Integer.parseInt(wg.get(i).findElement(By.tagName("span")).getText());
+				switch (gradeOption) {
+					case ('g'): grades[0] = nota; break;
+					case ('j'): grades[1] = nota; break;
+					case ('d'): grades[2] = nota; break;
+					case ('s'): grades[3] = nota; break;
+					default: nota = -1;
+				}
+			}catch(NumberFormatException e) {
+				// numero invalido
 			}
-
 		}
 
 		return grades;

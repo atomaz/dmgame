@@ -21,11 +21,16 @@
 		
 		<property name="gradeSound" column="grade_sound" type="int" />
 		
-		<many-to-one name="game" class="model.Game" column="id_game"/>
+		<property name="multiplatform" column="multiplatform" type="boolean"/>
 		
-		<many-to-one name="platform" class="model.Platform" column="platform_id"/>
+		<property name="producer" column="producer" type="string"/>
+		
+		<property name="year" column="year" type="int" />
 		
 		<many-to-one name="gameType" class="model.GameType" column="gametype_id"/>
+		
+		<many-to-one name="game" class="model.Game" column="id_game"/>
+
 
 	</class>
 

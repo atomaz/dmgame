@@ -12,7 +12,7 @@ public class Review implements Serializable {
 	
 	private String url;
 	private Game game;
-	private Platform platform;
+	private boolean multiplatform;
 	private GameType gameType;
 	private int gradeGraphic;
 	private int gradeJogability;
@@ -20,7 +20,22 @@ public class Review implements Serializable {
 	private int gradeSound;
 	private String country;
 	private boolean multiplayer;
+	private String producer;
+	private int year;
 	
+	
+	public int getYear() {
+		return year;
+	}
+	public void setYear(int year) {
+		this.year = year;
+	}
+	public String getProducer() {
+		return producer;
+	}
+	public void setProducer(String producer) {
+		this.producer = producer;
+	}
 	public long getId() {
 		return id;
 	}
@@ -39,11 +54,11 @@ public class Review implements Serializable {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	public Platform getPlatform() {
-		return platform;
+	public boolean isMultiplatform() {
+		return multiplatform;
 	}
-	public void setPlatform(Platform platform) {
-		this.platform = platform;
+	public void setMultiplatform(boolean multiplatform) {
+		this.multiplatform = multiplatform;
 	}
 	public GameType getGameType() {
 		return gameType;
