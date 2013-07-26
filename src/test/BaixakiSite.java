@@ -50,7 +50,7 @@ public class BaixakiSite extends BaseTest {
 			int year =  Integer.parseInt(syear[syear.length - 1]);
 			
 			// multiplayer
-			int numberOfPlayers = Integer.parseInt(info.findElements(By.tagName("li")).get(2).getText().split(" ")[0]);
+			int numberOfPlayers = Integer.parseInt(info.findElements(By.tagName("li")).get(6).getText().split(" ")[0].replace("-", ""));
 			boolean isMultiplayer = numberOfPlayers > 1;
 			
 			String nameGame = getFromHtmlNameGame();
@@ -142,7 +142,7 @@ public class BaixakiSite extends BaseTest {
 		grades[3] = n0 / 10; 
 		
 		// conteudo
-		grades[4] = Integer.parseInt(html.findElement(By.className("num rating")).getText());
+		grades[4] = Integer.parseInt(html.findElement(By.xpath("//span[@class='num rating']")).getText());
 				
 		
 			
@@ -156,7 +156,7 @@ public class BaixakiSite extends BaseTest {
 
 		ArrayList<String> links = new ArrayList<String>();
 
-		String btproximo = "//a[contains(@href,'analises/?page=')]";
+		String btproximo = "//a[@class='next_page']";
 		try {
 			do {
 
@@ -170,7 +170,7 @@ public class BaixakiSite extends BaseTest {
 				}
 
 				html.findElement(By.xpath(btproximo)).click();
-				pause(3000);
+				pause(4000);
 			} while (html.findElement(By.xpath(btproximo)) != null);
 		} catch(NoSuchElementException e) {
 			System.out.println("Pegou todas as paginas de UOL ... eu espero");
