@@ -37,6 +37,7 @@ alter table review add column gametype_id int references gametype(id);
 
 alter table review drop column platform_id;
 alter table review add column multiplatform boolean default false;
+alter table review add column grade_content int;
 drop table platform;
 
 
