@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import model.Game;
@@ -13,6 +14,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
 
@@ -33,10 +35,13 @@ public class BaixakiSite extends BaseTest {
 
 		System.out.println(links);
 		
+		ArrayList<Review> reviews = new ArrayList<Review>();
 
-		for (String link : links) {
+		for (int i = 477; i < links.size(); i++) {
 
-			String linkDados = link.replace("/analise", "");
+			try {
+			
+			String linkDados = links.get(i).replace("/analise", "");
 			// abrir a página
 			html.get(linkDados);
 	
@@ -134,7 +139,7 @@ public class BaixakiSite extends BaseTest {
 			
 			if (getGrades) {
 				// pega as notas
-				int[] notas = getGrades(link);
+				int[] notas = getGrades(links.get(i));
 				
 				review.setGradeGraphic(notas[0]);
 				review.setGradeJogability(notas[1]);
@@ -147,7 +152,15 @@ public class BaixakiSite extends BaseTest {
 			}
 			
 			// enfim ... salva o jogo
-			saveReview(review);
+			reviews.add(review);
+			}catch(Exception e) {
+				break;
+			}
+			
+		}
+		
+		for (Review r : reviews) {
+			saveReview(r);
 		}
 
 	}
