@@ -11,21 +11,23 @@
 
 		</id>
 				
-		<property name="url" column="r_url" type="string" />
+		<property name="url" column="r_url"/>
 		
-		<property name="gradeGraphic" column="grade_graphic" type="int" />
+		<property name="gradeGraphic" column="grade_graphic" />
 		
-		<property name="gradeJogability" column="grade_jogability" type="int" />
+		<property name="gradeJogability" column="grade_jogability"  />
 		
-		<property name="gradeFun" column="grade_fun" type="int" />
+		<property name="gradeFun" column="grade_fun" />
 		
-		<property name="gradeSound" column="grade_sound" type="int" />
+		<property name="gradeSound" column="grade_sound" />
 		
-		<property name="multiplatform" column="multiplatform" type="boolean"/>
+		<property name="gradeContent" column="grade_content" />
 		
-		<property name="producer" column="producer" type="string"/>
+		<property name="multiplatform" column="multiplatform"/>
 		
-		<property name="year" column="year" type="int" />
+		<property name="producer" column="producer"/>
+		
+		<property name="year" column="year" />
 		
 		<many-to-one name="gameType" class="model.GameType" column="gametype_id"/>
 		

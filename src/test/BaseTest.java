@@ -16,6 +16,7 @@ import dao.ReviewDAO;
 abstract class BaseTest {
 
 	protected WebDriver html;
+	protected ReviewDAO dao;
 	
 	public abstract String getFromHtmlNameGame();
 	public abstract ArrayList<String> getReviewLinks();

@@ -18,6 +18,7 @@ public class Review implements Serializable {
 	private int gradeJogability;
 	private int gradeFun;
 	private int gradeSound;
+	private int gradeContent;
 	private String country;
 	private boolean multiplayer;
 	private String producer;
@@ -101,6 +102,27 @@ public class Review implements Serializable {
 	}
 	public void setMultiplayer(boolean multiplayer) {
 		this.multiplayer = multiplayer;
+	}
+	public int getGradeContent() {
+		return gradeContent;
+	}
+	public void setGradeContent(int gradeContent) {
+		this.gradeContent = gradeContent;
+	}
+	
+	@Override
+	public String toString() {
+		return "Nome: " + game.getName() 
+				+ "\nProducer: " + producer 
+				+ "\nYear: " + year
+				+ "\nMultiplayer: " + multiplayer 
+				+ "\nMultiplatform: " + multiplatform
+				+ "\nGraphic: " + gradeGraphic
+				+ "\nJogability: " + gradeJogability
+				+ "\nFun: " + gradeFun
+				+ "\nSound: " + gradeSound
+				+ "\nContent: " + gradeContent;
+				
 	}
 	
 }

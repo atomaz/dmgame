@@ -68,6 +68,7 @@ public class TechTudoSite extends BaseTest {
 			r.setGradeJogability(grades[1]);
 			r.setGradeFun(grades[2]);
 			r.setGradeSound(grades[3]);
+			r.setGradeContent(grades[4]);
 
 			r.setGame(g);
 			r.setUrl(link);
@@ -113,12 +114,12 @@ public class TechTudoSite extends BaseTest {
 	public String getFromHtmlNameGame() {
 
 		String name = html.findElement(By.xpath("//div[@class='conteudo-item primeiro']/h1")).getText(); 
-
+		name += " ";
 		// substituindo a numeracao
-		name = name.replaceAll("2", "ii");
-		name = name.replaceAll("3", "iii");
-		name = name.replaceAll("4", "iv");
-		name = name.replaceAll("5", "v");
+		name = name.replaceAll(" 2 ", " ii ");
+		name = name.replaceAll(" 3 ", " iii ");
+		name = name.replaceAll(" 4 ", " iv ");
+		name = name.replaceAll(" 5 ", " v ");
 
 		// retirando dois pontos e traco
 		name = name.replaceAll(":", "");
@@ -126,6 +127,11 @@ public class TechTudoSite extends BaseTest {
 		name = name.replaceAll("'", "");
 		name = name.replaceAll("&", "and");
 
+		// se o ultimo caracter for um espaco, remove
+		if (name.toCharArray()[name.length()-1] == ' ') {
+			name = name.substring(0, name.length()-1);
+		}
+		
 		return name.toLowerCase();
 	}	
 
@@ -146,7 +152,7 @@ public class TechTudoSite extends BaseTest {
 	 * 
 	 * */
 	public int[] getGrades() {
-		int[] grades = new int[4];
+		int[] grades = new int[5];
 
 		for (int i = 0; i < grades.length; i++) {
 			grades[i] = -1;
@@ -172,6 +178,10 @@ public class TechTudoSite extends BaseTest {
 				// numero invalido
 			}
 		}
+		
+		grades[4] = Integer.parseInt(html.findElement(By.className("nota-editor-right")).
+				findElement(By.tagName("div"))
+				.getAttribute("content"));
 
 		return grades;
 	}
