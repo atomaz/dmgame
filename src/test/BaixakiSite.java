@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Game;
+import model.GameType;
 import model.Review;
 
 import org.junit.Test;
@@ -42,18 +43,43 @@ public class BaixakiSite extends BaseTest {
 			
 			// desenvolvedora / produtora
 			WebElement info = html.findElement(By.className("gameinfo"));
+			String producer = "";
+			try {
+				producer = info.findElements(By.tagName("li")).get(0).getText();
+			} catch(NoSuchElementException e) {
+				// continua
+			}
 			
-			String producer = info.findElements(By.tagName("li")).get(0).findElement(By.tagName("a")).getText();
 			
-			// ano 
-			String[] syear = info.findElements(By.tagName("li")).get(2).getText().split(" "); 
-			int year =  Integer.parseInt(syear[syear.length - 1]);
-			
+			// ano
+			int year = 0;
+			try {
+				String[] syear = info.findElement(By.className("ic-release")).getText().split(" "); 
+				year =  Integer.parseInt(syear[syear.length - 1]);
+			} catch(NoSuchElementException e) {
+				// continua
+			} catch (NumberFormatException f) {
+				// continua
+			}
 			// multiplayer
+			
 			List<WebElement> l = info.findElements(By.tagName("li"));
 			
-			int numberOfPlayers = Integer.parseInt(l.get(l.size()-1).getText().split(" ")[0].replace("-", ""));
-			boolean isMultiplayer = numberOfPlayers > 1;
+			boolean isMultiplayer = false;
+			
+			if(l.get(l.size()-1).getText().contains("Jogadores") || l.get(l.size()-1).getText().contains("Jogador")) {
+				int numberOfPlayers = Integer.parseInt(l.get(l.size()-1).getText().split(" ")[0].replace("-", ""));
+				isMultiplayer = numberOfPlayers > 1;
+			}
+		
+			String gameType = "";
+			try {
+				gameType = getType();
+			} catch(NoSuchElementException e) {
+				// continua
+			}
+			
+			
 			
 			String nameGame = getFromHtmlNameGame();
 			
@@ -62,6 +88,13 @@ public class BaixakiSite extends BaseTest {
 			Game game = new Game();
 			game.setName(nameGame);
 			
+			GameType t = null;
+			if(!gameType.equals("")) {
+				t = new GameType();
+				t.setName(gameType);
+			}
+			
+			review.setGameType(t);
 			
 			review.setGame(game);
 			review.setProducer(producer);
@@ -144,7 +177,7 @@ public class BaixakiSite extends BaseTest {
 		grades[3] = n0 / 10; 
 		
 		// conteudo
-		grades[4] = Integer.parseInt(html.findElement(By.xpath("//span[@class='num rating']")).getText());
+		grades[4] = Integer.parseInt(html.findElement(By.xpath("//span[@class='num rating']")).getText()) / 10;
 				
 		
 			
@@ -206,6 +239,14 @@ public class BaixakiSite extends BaseTest {
 		}
 		
 		return name;
+	}
+	
+	public String getType() {
+		return html.findElement(By.className("container")).
+		findElements(By.tagName("div")).get(2).
+		findElements(By.tagName("div")).get(0).
+		findElements(By.tagName("ul")).get(0).
+		findElements(By.tagName("li")).get(0).getText();
 	}
 
 }
