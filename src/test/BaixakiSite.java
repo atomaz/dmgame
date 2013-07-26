@@ -50,7 +50,9 @@ public class BaixakiSite extends BaseTest {
 			int year =  Integer.parseInt(syear[syear.length - 1]);
 			
 			// multiplayer
-			int numberOfPlayers = Integer.parseInt(info.findElements(By.tagName("li")).get(6).getText().split(" ")[0].replace("-", ""));
+			List<WebElement> l = info.findElements(By.tagName("li"));
+			
+			int numberOfPlayers = Integer.parseInt(l.get(l.size()-1).getText().split(" ")[0].replace("-", ""));
 			boolean isMultiplayer = numberOfPlayers > 1;
 			
 			String nameGame = getFromHtmlNameGame();
