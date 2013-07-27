@@ -27,6 +27,8 @@ public class BaixakiSite extends BaseTest {
 
 		pause(3000);
 
+		
+		
 //		ArrayList<String> links = getReviewLinks();
 		String[] links = links();
 		
@@ -34,9 +36,13 @@ public class BaixakiSite extends BaseTest {
 		
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		HashSet<String> linkSet = new HashSet<String>();
-		
+		List<Review> dbReviews = dao.listAllReviews();
 		for (int i = 0; i < links.length; i++) {
 			linkSet.add(links[i]);
+		}
+		
+		for (Review review : dbReviews) {
+			linkSet.remove(review.getUrl());
 		}
 
 		System.out.println("NUMERO DE ENTRADAS: " + linkSet.size());
@@ -45,117 +51,119 @@ public class BaixakiSite extends BaseTest {
 
 		for (String link : linkSet) {
 			
-			
-			String linkDados = link.replace("/analise", "");
-			// abrir a página
-			html.get(linkDados);
-			
-			// desenvolvedora / produtora
-			WebElement info = html.findElement(By.className("gameinfo"));
-			String producer = "";
 			try {
-				producer = info.findElements(By.tagName("li")).get(0).getText();
-			} catch(NoSuchElementException e) {
-				System.out.println("Nao encontrou o elemento do produtor");
-			}
-			
-			// idade
-			
-			int age = -1;
-			
-			try {
-				String[] sage = info.findElement(By.xpath("//div[@class='gameinfo']//li/span[contains(.,'anos')]")).getText().split(" ");
-				age = Integer.parseInt(sage[sage.length - 2]);
-			} catch(NoSuchElementException e ) {
-				System.out.println("Nao encontrou o elemento da idade: " + e.getCause());
-				age = -1;
-			} catch (NumberFormatException f) {
-				System.out.println("Nao encontrou o elemento da idade: " + f.getCause());
-				age = -1;
-			}
-			
-			// ano
-			int year = 0;
-			try {
-				String[] syear = info.findElement(By.className("ic-release")).getText().split(" "); 
-				year =  Integer.parseInt(syear[syear.length - 1]);
-			} catch(NoSuchElementException e) {
-				System.out.println("nao encontrou o elemento Year");
-			} catch (NumberFormatException f) {
-				System.out.println("nao conseguiu converter o ano");
-			}
-			// multiplayer
-			
-			List<WebElement> l = info.findElements(By.tagName("li"));
-			
-			boolean isMultiplayer = false;
-			String text = l.get(l.size()-1).getText().toLowerCase(); 
-			
-			if( text.contains("jogadores") || text.contains("jogador")) {
+				String linkDados = link.replace("/analise", "");
+				// abrir a página
+				html.get(linkDados);
+				
+				// desenvolvedora / produtora
+				WebElement info = html.findElement(By.className("gameinfo"));
+				String producer = "";
 				try {
-					int numberOfPlayers = Integer.parseInt(l.get(l.size()-1).getText().split(" ")[0].replace("-", ""));
-					isMultiplayer = numberOfPlayers > 1;
-				}catch (NumberFormatException e) {
-					System.out.println("Nao conseguiu converter o numero de jogadores .. pode ser ilimitado");
-					isMultiplayer = text.contains("ilimitado");
+					producer = info.findElements(By.tagName("li")).get(0).getText();
+				} catch(NoSuchElementException e) {
+					System.out.println("Nao encontrou o elemento do produtor");
 				}
-			}
+				
+				// idade
+				
+				int age = -1;
+				
+				try {
+					String[] sage = info.findElement(By.xpath("//div[@class='gameinfo']//li/span[contains(.,'anos')]")).getText().split(" ");
+					age = Integer.parseInt(sage[sage.length - 2]);
+				} catch(NoSuchElementException e ) {
+					System.out.println("Nao encontrou o elemento da idade: " + e.getCause());
+					age = -1;
+				} catch (NumberFormatException f) {
+					System.out.println("Nao encontrou o elemento da idade: " + f.getCause());
+					age = -1;
+				}
+				
+				// ano
+				int year = 0;
+				try {
+					String[] syear = info.findElement(By.className("ic-release")).getText().split(" "); 
+					year =  Integer.parseInt(syear[syear.length - 1]);
+				} catch(NoSuchElementException e) {
+					System.out.println("nao encontrou o elemento Year");
+				} catch (NumberFormatException f) {
+					System.out.println("nao conseguiu converter o ano");
+				}
+				// multiplayer
+				
+				List<WebElement> l = info.findElements(By.tagName("li"));
+				
+				boolean isMultiplayer = false;
+				String text = l.get(l.size()-1).getText().toLowerCase(); 
+				
+				if( text.contains("jogadores") || text.contains("jogador")) {
+					try {
+						int numberOfPlayers = Integer.parseInt(l.get(l.size()-1).getText().split(" ")[0].replace("-", ""));
+						isMultiplayer = numberOfPlayers > 1;
+					}catch (NumberFormatException e) {
+						System.out.println("Nao conseguiu converter o numero de jogadores .. pode ser ilimitado");
+						isMultiplayer = text.contains("ilimitado");
+					}
+				}
+			
+				String gameType = "";
+				try {
+					gameType = getType();
+				} catch(NoSuchElementException e) {
+					System.out.println("Nao achou o elemento de Tipo de Jogo");
+				}
+				
+				//multiplatform
+				boolean multiplatform = false;
+				try {
+					html.findElement(By.xpath("//h2[contains(.,'Dispon\u00edvel tamb\u00e9m para')]"));
+					multiplatform = true;
+				}catch(NoSuchElementException e) {
+					System.out.println("Nao encontrou multiplatform");
+					multiplatform = false;
+				}
+				
 		
-			String gameType = "";
-			try {
-				gameType = getType();
-			} catch(NoSuchElementException e) {
-				System.out.println("Nao achou o elemento de Tipo de Jogo");
-			}
-			
-			//multiplatform
-			boolean multiplatform = false;
-			try {
-				html.findElement(By.xpath("//h2[contains(.,'Dispon\u00edvel tamb\u00e9m para')]"));
-				multiplatform = true;
-			}catch(NoSuchElementException e) {
-				System.out.println("Nao encontrou multiplatform");
-				multiplatform = false;
-			}
-			
+				String nameGame = getFromHtmlNameGame();
+				
+				Review review = new Review();
 	
-			String nameGame = getFromHtmlNameGame();
-			
-			Review review = new Review();
-
-			Game game = new Game();
-			game.setName(nameGame);
-			
-			GameType t = null;
-			if(!gameType.equals("")) {
-				t = new GameType();
-				t.setName(gameType);
+				Game game = new Game();
+				game.setName(nameGame);
+				
+				GameType t = null;
+				if(!gameType.equals("")) {
+					t = new GameType();
+					t.setName(gameType);
+				}
+				
+				review.setGameType(t);
+				review.setAge(age);
+				review.setGame(game);
+				review.setProducer(producer);
+				review.setYear(year);
+				review.setMultiplayer(isMultiplayer);
+				
+				
+				int[] notas = getGrades(link);
+				
+				review.setGradeGraphic(notas[0]);
+				review.setGradeJogability(notas[1]);
+				review.setGradeSound(notas[2]);
+				review.setGradeFun(notas[3]);
+				review.setGradeContent(notas[4]);
+				
+				// atualiza a url
+				review.setUrl(linkDados);
+				
+				
+				// enfim ... salva o jogo
+				reviews.add(review);
+				saveReview(review);
+			}catch(Exception e) {
+				System.out.println("Provavelmente algum outro link inválido ... vai para o próximo");
 			}
-			
-			review.setGameType(t);
-			review.setAge(age);
-			review.setGame(game);
-			review.setProducer(producer);
-			review.setYear(year);
-			review.setMultiplayer(isMultiplayer);
-			
-			
-			int[] notas = getGrades(link);
-			
-			review.setGradeGraphic(notas[0]);
-			review.setGradeJogability(notas[1]);
-			review.setGradeSound(notas[2]);
-			review.setGradeFun(notas[3]);
-			review.setGradeContent(notas[4]);
-			
-			// atualiza a url
-			review.setUrl(linkDados);
-			
-			
-			// enfim ... salva o jogo
-			reviews.add(review);
-			saveReview(review);
-		
 			
 		}
 
