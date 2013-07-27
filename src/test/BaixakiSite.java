@@ -54,10 +54,13 @@ public class BaixakiSite extends BaseTest {
 			int age = -1;
 			
 			try {
-				String[] sage = info.findElement(By.xpath("//li/span[contains(.'anos')]")).getText().split("");
+				String[] sage = info.findElement(By.xpath("//div[@class='gameinfo']//li/span[contains(.,'anos')]")).getText().split(" ");
 				age = Integer.parseInt(sage[sage.length - 2]);
 			} catch(NoSuchElementException e ) {
 				System.out.println("Nao encontrou o elemento da idade: " + e.getCause());
+				age = -1;
+			} catch (NumberFormatException f) {
+				System.out.println("Nao encontrou o elemento da idade: " + f.getCause());
 				age = -1;
 			}
 			
@@ -93,6 +96,16 @@ public class BaixakiSite extends BaseTest {
 				gameType = getType();
 			} catch(NoSuchElementException e) {
 				System.out.println("Nao achou o elemento de Tipo de Jogo");
+			}
+			
+			//multiplatform
+			boolean multiplatform = false;
+			try {
+				html.findElement(By.xpath("//h2[contains(.,'Disponível também para')]"));
+				multiplatform = true;
+			}catch(NoSuchElementException e) {
+				System.out.println("Nao encontrou multiplatform");
+				multiplatform = false;
 			}
 			
 	
@@ -148,22 +161,22 @@ public class BaixakiSite extends BaseTest {
 		// grafico / visual
 		WebElement wgrades = html.findElement(By.className("grades"));
 		int n0 = Integer.parseInt(wgrades.findElements(By.tagName("li")).get(0).findElement(By.xpath("//span[2]/span")).getText().split(" ")[1]);
-		grades[0] = n0 / 10;
+		grades[0] = n0;
 		
 		// jogabilidade
 		n0 = Integer.parseInt(wgrades.findElements(By.tagName("li")).get(1).findElement(By.xpath("//span[2]/span")).getText().split(" ")[1]);
-		grades[1] = n0 / 10; 
+		grades[1] = n0; 
 		
 		// som
 		n0 = Integer.parseInt(wgrades.findElements(By.tagName("li")).get(2).findElement(By.xpath("//span[2]/span")).getText().split(" ")[1]);
-		grades[2] = n0 / 10; 
+		grades[2] = n0; 
 		
 		// diversao
 		n0 = Integer.parseInt(wgrades.findElements(By.tagName("li")).get(3).findElement(By.xpath("//span[2]/span")).getText().split(" ")[1]);
-		grades[3] = n0 / 10; 
+		grades[3] = n0; 
 		
 		// conteudo
-		grades[4] = Integer.parseInt(html.findElement(By.xpath("//span[@class='num rating']")).getText()) / 10;
+		grades[4] = Integer.parseInt(html.findElement(By.xpath("//span[@class='num rating']")).getText());
 				
 		
 			
