@@ -25,9 +25,13 @@
 		
 		<property name="multiplatform" column="multiplatform"/>
 		
+		<property name="multiplayer" column="multiplayer"/>
+		
 		<property name="producer" column="producer"/>
 		
 		<property name="year" column="year" />
+		
+		<property name="age" column="age" />
 		
 		<many-to-one name="gameType" class="model.GameType" column="gametype_id"/>
 		

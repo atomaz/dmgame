@@ -130,7 +130,7 @@ public class ReviewDAO {
 		session.saveOrUpdate(reviewToBeSaved.getGame());
 		if (reviewToBeSaved.getGame().getId() > -1) {
 			q = session.createQuery("FROM Review r WHERE r.game.id = '" + review.getGame().getId() + "'");
-			List reviews = q.list();
+				List reviews = q.list();
 			if (reviews.size() > 0) {
 				// existe um jogo com o nome dado .. basta atualizá-lo
 				reviewToBeSaved = (Review) reviews.get(0);
@@ -156,7 +156,8 @@ public class ReviewDAO {
 		reviewToBeSaved.setYear(review.getYear());
 		reviewToBeSaved.setProducer(review.getProducer());
 		reviewToBeSaved.setMultiplatform(review.isMultiplatform());
-		//reviewToBeSaved.setMultiplayer(review.isMultiplayer());
+		reviewToBeSaved.setMultiplayer(review.isMultiplayer());
+		reviewToBeSaved.setAge(review.getAge());
 		
 		session.saveOrUpdate(reviewToBeSaved);
 	}

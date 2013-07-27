@@ -23,8 +23,17 @@ public class Review implements Serializable {
 	private boolean multiplayer;
 	private String producer;
 	private int year;
+	private int age;
 	
 	
+	
+	
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
 	public int getYear() {
 		return year;
 	}
