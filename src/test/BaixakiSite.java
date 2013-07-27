@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import model.Game;
@@ -32,11 +33,20 @@ public class BaixakiSite extends BaseTest {
 		System.out.println(links);
 		
 		ArrayList<Review> reviews = new ArrayList<Review>();
-
+		HashSet<String> linkSet = new HashSet<String>();
+		
 		for (int i = 0; i < links.length; i++) {
+			linkSet.add(links[i]);
+		}
 
+		System.out.println("NUMERO DE ENTRADAS: " + linkSet.size());
+		
+//		for (int i = 136; i < links.length; i++) {
+
+		for (String link : linkSet) {
 			
-			String linkDados = links[i].replace("/analise", "");
+			
+			String linkDados = link.replace("/analise", "");
 			// abrir a página
 			html.get(linkDados);
 			
@@ -130,7 +140,7 @@ public class BaixakiSite extends BaseTest {
 			review.setMultiplayer(isMultiplayer);
 			
 			
-			int[] notas = getGrades(links[i]);
+			int[] notas = getGrades(link);
 			
 			review.setGradeGraphic(notas[0]);
 			review.setGradeJogability(notas[1]);
