@@ -101,7 +101,7 @@ public class BaixakiSite extends BaseTest {
 			//multiplatform
 			boolean multiplatform = false;
 			try {
-				html.findElement(By.xpath("//h2[contains(.,'Disponível também para')]"));
+				html.findElement(By.xpath("//h2[contains(.,'Dispon\u00edvel tamb\u00e9m para')]"));
 				multiplatform = true;
 			}catch(NoSuchElementException e) {
 				System.out.println("Nao encontrou multiplatform");
