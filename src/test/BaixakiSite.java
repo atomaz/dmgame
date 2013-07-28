@@ -41,8 +41,18 @@ public class BaixakiSite extends BaseTest {
 			linkSet.add(links[i]);
 		}
 		
+		ArrayList<String> toBeRemoved = new ArrayList<String>();
+		
 		for (Review review : dbReviews) {
-			linkSet.remove(review.getUrl());
+			for (String s:linkSet) {
+				if (s.contains(review.getUrl())) {
+					toBeRemoved.add(s);
+				}
+			}
+		} 
+		
+		for (String string : toBeRemoved) {
+			linkSet.remove(string);
 		}
 
 		System.out.println("NUMERO DE ENTRADAS: " + linkSet.size());

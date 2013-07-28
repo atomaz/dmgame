@@ -30,7 +30,7 @@ public class ReviewDAO {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
 		} finally {
-			session.close();
+			//session.close();
 		}
 		return r;
 		
@@ -54,7 +54,7 @@ public class ReviewDAO {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
 		} finally {
-			session.close();
+			//session.close();
 		}
 
 		return list;
@@ -115,9 +115,6 @@ public class ReviewDAO {
 	public void savingReview(Review review, Session session) {
 		// verificar se o objeto game dentro da review existe
 		Review reviewToBeSaved = review;
-		System.out.println("********* INSERTING ***********");
-		System.out.println(review);
-		System.out.println("*******************************");
 		
 		Query q = session.createQuery("FROM Game g WHERE g.name = '" + reviewToBeSaved.getGame().getName() + "'");
 		if (q != null) {
@@ -139,20 +136,25 @@ public class ReviewDAO {
 				System.out.println(reviewToBeSaved);
 				System.out.println("* * * * * * * * * * * * * * *");
 			}
+		} else {
+			System.out.println("********* INSERTING ***********");
+			System.out.println(review);
+			System.out.println("*******************************");
 		}
 		reviewToBeSaved.setGameType(review.getGameType());
 		if (review.getGameType() != null) {
 			// com o tipo
-			q = session.createQuery("FROM GameType gt WHERE gt.name = '" + reviewToBeSaved.getGameType().getName() + "'");
-			if (q != null) {
-				List games = q.list();
+			Query query = session.createQuery("FROM GameType gt WHERE gt.name = '" + reviewToBeSaved.getGameType().getName() + "'");
+			
+			if (query != null) {
+				List games = query.list();
 				if (games.size() > 0) {
 					reviewToBeSaved.setGameType((GameType)games.get(0));
 				}
-			}
-			
-			session.saveOrUpdate(reviewToBeSaved.getGameType());
+			}	
 		}
+		session.saveOrUpdate(reviewToBeSaved.getGameType());
+		
 		reviewToBeSaved.setYear(review.getYear());
 		reviewToBeSaved.setProducer(review.getProducer());
 		reviewToBeSaved.setMultiplatform(review.isMultiplatform());
