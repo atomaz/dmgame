@@ -43,7 +43,7 @@ public class ConvertDatabaseToARFF {
 		System.out.println("@data");
 		
 		for (Review r : reviews) {
-			System.out.println(r.getGame().getName().replace(" ", "-") + "," 
+			System.out.println(r.getGame().getName().replace(" ", "-").replace("{", "").replace("}", "").replace(",", "") + "," 
 					+ r.getProducer().replace(" ", "-") + ","
 					+ r.getYear() + ","
 					+ r.isMultiplayer() + ","
@@ -52,6 +52,7 @@ public class ConvertDatabaseToARFF {
 					+ r.getGradeJogability() + ","
 					+ r.getGradeFun() + ","
 					+ r.getGradeSound() + ","
+					+ r.getGradeContent() + ","
 					+ r.getAge()
 					);
 			
